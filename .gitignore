@@ -1,0 +1,20 @@
+# Generated/build output
+.dart_tool/
+.packages
+build/
+.idea/
+.vscode/
+android/.gradle/
+android/local.properties
+
+# Training data and model outputs are local; publish reviewed release assets separately.
+/data/
+/artifacts/
+assets/ml/*.tflite
+ml/*.log
+ml/__pycache__/
+
+# Platform and Python files
+*.iml
+*.pyc
+.venv/
