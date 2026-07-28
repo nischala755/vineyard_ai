@@ -110,3 +110,38 @@ Research outcomes:
 
 The most defensible next milestone is a labelled, expert-verified field dataset and an external validation study. That turns the current functioning prototype into a research platform capable of producing publishable evidence about real-world performance.
 
+## 9. Proposed next work I can deliver
+
+The current deliverable is a working offline prototype. The following work packages can be commissioned independently or combined into a full PhD research platform.
+
+| Work package | What I can deliver | Value to the research |
+| --- | --- | --- |
+| Field-data pipeline | Data-collection template, consent/metadata forms, image-quality rules, folder convention, de-duplication and annotation-preparation scripts | Produces a defensible, reusable research dataset rather than an unstructured photo collection |
+| Expert annotation system | Web/mobile annotation workflow for disease class, severity, lesion region, expert reviewer, and disagreement resolution | Makes labels traceable and suitable for supervised learning and inter-rater analysis |
+| Improved model study | Train and compare several mobile-friendly models; provide experiment configuration, test metrics, confusion matrices, and a reproducible report | Gives an evidence-based choice of model rather than relying on one accuracy score |
+| Field-validation study | Evaluate the model on unseen vineyards/seasons/devices; calculate precision, recall, F1, calibration, confidence intervals, and failure cases | Establishes whether the system works in real conditions and supports a publishable methodology |
+| Explainable AI | Add Grad-CAM/Score-CAM visual explanations and a clinician/agronomist review screen | Helps researchers inspect whether predictions use disease regions rather than background artefacts |
+| Severity and lesion analysis | Develop disease-severity grades and/or lesion segmentation, including annotation schema and visual result overlays | Extends the work from “what disease?” to “how severe is it?” |
+| Real-time scanning | Integrate live camera inference, frame sampling, temporal smoothing, low-confidence warnings, and on-device performance profiling | Makes the app more practical for vineyard walkthroughs |
+| Weather-risk prediction | Combine disease observations with weather and vineyard metadata to model disease risk over time | Creates a novel early-warning research direction beyond image classification |
+| Research dashboard | Build a secure dashboard for anonymised scans, trends, filtering, exports, and disease heatmaps | Supports analysis, supervision meetings, and presentation of research outcomes |
+| Publication package | Prepare methodology diagrams, experiment tables, ablation-study templates, reproducibility checklist, and dissertation/technical-report figures | Converts the engineering work into material that can support a thesis or paper |
+
+### Recommended order of work
+
+1. **Field data and expert annotations:** establish valid data first; this is the most important dependency.
+2. **External validation and model comparison:** quantify performance on genuinely unseen field data.
+3. **Explainability and uncertainty handling:** make results trustworthy and inspectable.
+4. **Severity analysis and real-time scanning:** improve practical utility.
+5. **Weather-risk prediction and dashboard:** extend the project into a broader PhD contribution.
+
+### Inputs required from the researcher
+
+- Access to vineyards or collaborators who can collect representative field images.
+- An agronomist/pathologist who can confirm disease labels and treatment content.
+- Agreement on the target geography, grape varieties, diseases, and ethical/consent process.
+- If weather or location modelling is desired, permission to use the selected data source and appropriate anonymisation rules.
+
+### Immediate next deliverable I can start
+
+I can next create the field-data collection and annotation package: a structured data schema, mobile/desktop collection instructions, metadata spreadsheet, annotation labels, quality checks, and retraining scripts. Once field images and expert labels are available, I can train and benchmark the next model version and integrate it into the app.
