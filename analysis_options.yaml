@@ -4,4 +4,5 @@ linter:
   rules:
     always_declare_return_types: true
     avoid_dynamic_calls: true
+    curly_braces_in_flow_control_structures: false
     prefer_final_locals: true

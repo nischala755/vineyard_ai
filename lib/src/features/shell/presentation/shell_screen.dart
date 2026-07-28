@@ -1,17 +1,141 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../core/domain/disease.dart';
 import '../../history/presentation/history_screen.dart';
 
-class ShellScreen extends StatefulWidget { const ShellScreen({super.key, required this.themeMode, required this.onThemeChanged}); final ThemeMode themeMode; final ValueChanged<ThemeMode> onThemeChanged; @override State<ShellScreen> createState() => _ShellScreenState(); }
+class ShellScreen extends StatefulWidget {
+  const ShellScreen(
+      {super.key, required this.themeMode, required this.onThemeChanged});
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode> onThemeChanged;
+  @override
+  State<ShellScreen> createState() => _ShellScreenState();
+}
+
 class _ShellScreenState extends State<ShellScreen> {
   var index = 0;
-  @override Widget build(BuildContext context) {
-    final screens = [Home(onScan: () => context.push('/camera')), const HistoryScreen(), const EncyclopediaScreen(), SettingsScreen(themeMode: widget.themeMode, onThemeChanged: widget.onThemeChanged)];
-    return Scaffold(body: SafeArea(child: screens[index]), bottomNavigationBar: NavigationBar(selectedIndex: index, onDestinationSelected: (value) => setState(() => index = value), destinations: const [NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Home'), NavigationDestination(icon: Icon(Icons.history), label: 'History'), NavigationDestination(icon: Icon(Icons.menu_book_outlined), label: 'Guide'), NavigationDestination(icon: Icon(Icons.settings_outlined), label: 'Settings')]));
+  @override
+  Widget build(BuildContext context) {
+    final screens = [
+      Home(onScan: () => context.push('/camera')),
+      const HistoryScreen(),
+      const EncyclopediaScreen(),
+      SettingsScreen(
+          themeMode: widget.themeMode, onThemeChanged: widget.onThemeChanged)
+    ];
+    return Scaffold(
+        body: SafeArea(child: screens[index]),
+        bottomNavigationBar: NavigationBar(
+            selectedIndex: index,
+            onDestinationSelected: (value) => setState(() => index = value),
+            destinations: const [
+              NavigationDestination(
+                  icon: Icon(Icons.home_outlined),
+                  selectedIcon: Icon(Icons.home),
+                  label: 'Home'),
+              NavigationDestination(
+                  icon: Icon(Icons.history), label: 'History'),
+              NavigationDestination(
+                  icon: Icon(Icons.menu_book_outlined), label: 'Guide'),
+              NavigationDestination(
+                  icon: Icon(Icons.settings_outlined), label: 'Settings')
+            ]));
   }
 }
-class Home extends StatelessWidget { const Home({super.key, required this.onScan}); final VoidCallback onScan; @override Widget build(BuildContext c) => Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('VineGuard AI', style: Theme.of(c).textTheme.headlineMedium), const SizedBox(height: 8), const Text('Offline grape leaf diagnosis'), const Spacer(), Card(child: Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Icon(Icons.shield_outlined, size: 48), const SizedBox(height: 16), Text('Ready to scan', style: Theme.of(c).textTheme.titleLarge), const SizedBox(height: 8), const Text('Use a clear, well-lit photo of one grape leaf. Analysis stays on this device.'), const SizedBox(height: 20), FilledButton.icon(onPressed: onScan, icon: const Icon(Icons.camera_alt), label: const Text('Scan a leaf'))]))])); }
-class EncyclopediaScreen extends StatelessWidget { const EncyclopediaScreen({super.key}); @override Widget build(BuildContext c) => ListView(padding: const EdgeInsets.all(20), children: [Text('Disease guide', style: Theme.of(c).textTheme.headlineSmall), const SizedBox(height: 12), ...diseaseProfiles.values.map((d) => Card(child: ListTile(title: Text(d.title), subtitle: Text(d.description), onTap: () => showModalBottomSheet(context: c, showDragHandle: true, builder: (_) => Padding(padding: const EdgeInsets.all(24), child: SingleChildScrollView(child: Text('${d.title}\n\nSymptoms\n${d.symptoms}\n\nTreatment\n${d.treatment}\n\nPrevention\n${d.prevention}'))))))]); }
-class SettingsScreen extends StatelessWidget { const SettingsScreen({super.key, required this.themeMode, required this.onThemeChanged}); final ThemeMode themeMode; final ValueChanged<ThemeMode> onThemeChanged; @override Widget build(BuildContext c) => ListView(padding: const EdgeInsets.all(20), children: [Text('Settings', style: Theme.of(c).textTheme.headlineSmall), ListTile(leading: const Icon(Icons.dark_mode_outlined), title: const Text('Appearance'), subtitle: Text(themeMode == ThemeMode.system ? 'System default' : themeMode == ThemeMode.dark ? 'Dark mode' : 'Light mode'), trailing: DropdownButton<ThemeMode>(value: themeMode, onChanged: (mode) { if (mode != null) onThemeChanged(mode); }, items: const [DropdownMenuItem(value: ThemeMode.system, child: Text('System')), DropdownMenuItem(value: ThemeMode.light, child: Text('Light')), DropdownMenuItem(value: ThemeMode.dark, child: Text('Dark'))])), const ListTile(leading: Icon(Icons.offline_bolt), title: Text('Offline operation'), subtitle: Text('Inference and scan history remain on your device.')), const ListTile(leading: Icon(Icons.info_outline), title: Text('Model information'), subtitle: Text('INT8 TensorFlow Lite model; crop advice should be checked with local agricultural guidance.'))]); }
+
+class Home extends StatelessWidget {
+  const Home({super.key, required this.onScan});
+  final VoidCallback onScan;
+  @override
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('VineGuard AI', style: Theme.of(context).textTheme.headlineMedium),
+        const SizedBox(height: 8),
+        const Text('Offline grape leaf diagnosis'),
+        const Spacer(),
+        Card(
+            child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.shield_outlined, size: 48),
+                      const SizedBox(height: 16),
+                      Text('Ready to scan',
+                          style: Theme.of(context).textTheme.titleLarge),
+                      const SizedBox(height: 8),
+                      const Text(
+                          'Use a clear, well-lit photo of one grape leaf. Analysis stays on this device.'),
+                      const SizedBox(height: 20),
+                      FilledButton.icon(
+                          onPressed: onScan,
+                          icon: const Icon(Icons.camera_alt),
+                          label: const Text('Scan a leaf'))
+                    ])))
+      ]));
+}
+
+class EncyclopediaScreen extends StatelessWidget {
+  const EncyclopediaScreen({super.key});
+  @override
+  Widget build(BuildContext context) =>
+      ListView(padding: const EdgeInsets.all(20), children: [
+        Text('Disease guide', style: Theme.of(context).textTheme.headlineSmall),
+        const SizedBox(height: 12),
+        ...diseaseProfiles.values.map((profile) => Card(
+            child: ListTile(
+                title: Text(profile.title),
+                subtitle: Text(profile.description),
+                onTap: () => showModalBottomSheet(
+                    context: context,
+                    showDragHandle: true,
+                    builder: (_) => Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: SingleChildScrollView(
+                            child: Text(
+                                '${profile.title}\n\nSymptoms\n${profile.symptoms}\n\nTreatment\n${profile.treatment}\n\nPrevention\n${profile.prevention}')))))))
+      ]);
+}
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen(
+      {super.key, required this.themeMode, required this.onThemeChanged});
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode> onThemeChanged;
+  @override
+  Widget build(BuildContext context) =>
+      ListView(padding: const EdgeInsets.all(20), children: [
+        Text('Settings', style: Theme.of(context).textTheme.headlineSmall),
+        ListTile(
+            leading: const Icon(Icons.dark_mode_outlined),
+            title: const Text('Appearance'),
+            subtitle: Text(themeMode == ThemeMode.system
+                ? 'System default'
+                : themeMode == ThemeMode.dark
+                    ? 'Dark mode'
+                    : 'Light mode'),
+            trailing: DropdownButton<ThemeMode>(
+                value: themeMode,
+                onChanged: (mode) {
+                  if (mode != null) onThemeChanged(mode);
+                },
+                items: const [
+                  DropdownMenuItem(
+                      value: ThemeMode.system, child: Text('System')),
+                  DropdownMenuItem(
+                      value: ThemeMode.light, child: Text('Light')),
+                  DropdownMenuItem(value: ThemeMode.dark, child: Text('Dark'))
+                ])),
+        const ListTile(
+            leading: Icon(Icons.offline_bolt),
+            title: Text('Offline operation'),
+            subtitle:
+                Text('Inference and scan history remain on your device.')),
+        const ListTile(
+            leading: Icon(Icons.info_outline),
+            title: Text('Model information'),
+            subtitle: Text(
+                'INT8 TensorFlow Lite model; crop advice should be checked with local agricultural guidance.'))
+      ]);
+}

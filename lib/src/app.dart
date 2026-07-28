@@ -23,10 +23,19 @@ class _VineGuardAppState extends State<VineGuardApp> {
   void initState() {
     super.initState();
     _router = GoRouter(initialLocation: '/onboarding', routes: [
-      GoRoute(path: '/', builder: (_, __) => ShellScreen(themeMode: _themeMode, onThemeChanged: _setThemeMode)),
-      GoRoute(path: '/onboarding', builder: (_, __) => OnboardingScreen(onComplete: _completeOnboarding)),
+      GoRoute(
+          path: '/',
+          builder: (_, __) => ShellScreen(
+              themeMode: _themeMode, onThemeChanged: _setThemeMode)),
+      GoRoute(
+          path: '/onboarding',
+          builder: (_, __) =>
+              OnboardingScreen(onComplete: _completeOnboarding)),
       GoRoute(path: '/camera', builder: (_, __) => const CameraScreen()),
-      GoRoute(path: '/prediction', builder: (_, state) => PredictionScreen(imagePath: state.extra! as String)),
+      GoRoute(
+          path: '/prediction',
+          builder: (_, state) =>
+              PredictionScreen(imagePath: state.extra! as String)),
     ]);
     _restoreSettings();
   }
@@ -35,7 +44,9 @@ class _VineGuardAppState extends State<VineGuardApp> {
     final prefs = await SharedPreferences.getInstance();
     final value = prefs.getString(_themeKey);
     if (mounted) {
-      setState(() => _themeMode = ThemeMode.values.firstWhere((mode) => mode.name == value, orElse: () => ThemeMode.system));
+      setState(() => _themeMode = ThemeMode.values.firstWhere(
+          (mode) => mode.name == value,
+          orElse: () => ThemeMode.system));
       if (prefs.getBool(_onboardedKey) ?? false) _router.go('/');
     }
   }
@@ -55,8 +66,15 @@ class _VineGuardAppState extends State<VineGuardApp> {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
         title: 'VineGuard AI',
-        theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff2E7D32)), useMaterial3: true),
-        darkTheme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff81C784), brightness: Brightness.dark), useMaterial3: true),
+        theme: ThemeData(
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xff2E7D32)),
+            useMaterial3: true),
+        darkTheme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color(0xff81C784),
+                brightness: Brightness.dark),
+            useMaterial3: true),
         themeMode: _themeMode,
         routerConfig: _router,
       );
