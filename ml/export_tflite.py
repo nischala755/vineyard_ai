@@ -30,8 +30,8 @@ def main() -> None:
     # Remove training-only augmentation and dropout before conversion. Retaining
     # random augmentation layers causes unsupported TFLite operations even when
     # exported in inference mode.
-    trained_backbone = trained_model.layers[2]
-    trained_classifier = trained_model.layers[5]
+    trained_backbone = next(layer for layer in trained_model.layers if layer.name == 'MobileNetV3Small')
+    trained_classifier = trained_model.layers[-1]
     # The training process uses mixed precision for speed. Recreate the
     # inference graph in float32 before calibration; full-INT8 conversion does
     # not accept the float16 operations retained by a mixed-precision graph.

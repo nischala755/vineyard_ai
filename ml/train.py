@@ -14,7 +14,9 @@ def main() -> None:
     tf.keras.mixed_precision.set_global_policy('mixed_float16')
     train,valid,test=(dataset(a.data/s, s=='train') for s in ('train','validation','test'))
     base=tf.keras.applications.MobileNetV3Small(input_shape=(224,224,3), include_top=False, weights='imagenet'); base.trainable=False
-    model=tf.keras.Sequential([tf.keras.layers.Input((224, 224, 3)), augment(), tf.keras.layers.Lambda(tf.keras.applications.mobilenet_v3.preprocess_input), base, tf.keras.layers.GlobalAveragePooling2D(),tf.keras.layers.Dropout(.25),tf.keras.layers.Dense(4,activation='softmax',dtype='float32')])
+    # MobileNetV3 contains its own input rescaling layer; do not add a Lambda
+    # preprocessing function, because it is not reliably serializable/exportable.
+    model=tf.keras.Sequential([tf.keras.layers.Input((224, 224, 3)), augment(), base, tf.keras.layers.GlobalAveragePooling2D(),tf.keras.layers.Dropout(.25),tf.keras.layers.Dense(4,activation='softmax',dtype='float32')])
     model.compile(optimizer=tf.keras.optimizers.Adam(1e-3),loss='sparse_categorical_crossentropy',metrics=['accuracy']); callbacks=[tf.keras.callbacks.ModelCheckpoint(a.output/'best.keras',save_best_only=True),tf.keras.callbacks.EarlyStopping(patience=5,restore_best_weights=True),tf.keras.callbacks.ReduceLROnPlateau(patience=2),tf.keras.callbacks.TensorBoard(a.output/'tensorboard')]
     model.fit(train,validation_data=valid,epochs=a.epochs,callbacks=callbacks); base.trainable=True
     for layer in base.layers[:-30]: layer.trainable=False
